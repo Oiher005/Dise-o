@@ -1,0 +1,17 @@
+package adapter;
+
+import java.util.Comparator;
+
+import domain.Symptom;
+
+public class NameComparator implements Comparator {
+
+	@Override
+	public int compare(Object arg0, Object arg1) {
+		String s1=((Symptom)arg0).getName();
+		String s2=((Symptom)arg1).getName();
+		
+		return s1.compareTo(s2);
+	}
+
+}

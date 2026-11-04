@@ -1,7 +1,9 @@
 package factory;
 
 import java.util.Arrays;
+import java.util.HashMap; 
 import java.util.List;
+import java.util.Map;     
 
 import domain.DigestiveSymptom;
 import domain.NeuroMuscularSymptom;
@@ -9,7 +11,17 @@ import domain.RespiratorySymptom;
 import domain.Symptom;
 
 public class SymptomFactory {
+	
+	
+	private Map<String, Symptom> symptomCache = new HashMap<>();
+
 	public Symptom createSymptom(String symptomName) {
+		
+	
+		if (symptomCache.containsKey(symptomName)) {
+			return symptomCache.get(symptomName);
+		}
+
 	    List<String> impact5 = Arrays.asList("fiebre", "tos seca", "astenia","expectoracion");
 	    List<Double> index5 = Arrays.asList(87.9, 67.7, 38.1, 33.4);
 	    List<String> impact3 = Arrays.asList("disnea", "dolor de garganta", "cefalea","mialgia","escalofrios");
@@ -21,19 +33,27 @@ public class SymptomFactory {
 	    List<String> neuroMuscularSymptom=Arrays.asList("fiebre", "astenia", "cefalea", "mialgia","escalofrios","mareos");
 	    List<String> respiratorySymptom=Arrays.asList("tos seca","expectoracion","disnea","dolor de garganta", "congestión nasal","hemoptisis","congestion conjuntival");
 
-
 	    int impact=0;
 	    double index=0;
 	    if (impact5.contains(symptomName)) {impact=5; index= index5.get(impact5.indexOf(symptomName));}
 	      else if (impact3.contains(symptomName)) {impact=3;index= index3.get(impact3.indexOf(symptomName));}
 	        else if (impact1.contains(symptomName)) {impact=1; index= index1.get(impact1.indexOf(symptomName));}
 	 
+	    Symptom s = null;
 	    if (impact!=0)  {
-	    	if (digestiveSymptom.contains(symptomName)) return new DigestiveSymptom(symptomName,(int)index, impact);
-	    	if (neuroMuscularSymptom.contains(symptomName)) return new NeuroMuscularSymptom(symptomName,(int)index, impact);
-	    	if (respiratorySymptom.contains(symptomName)) return new RespiratorySymptom(symptomName,(int)index, impact);
+	    	if (digestiveSymptom.contains(symptomName)) 
+	    		s = new DigestiveSymptom(symptomName, (int)index, impact);
+	    	else if (neuroMuscularSymptom.contains(symptomName)) 
+	    		s = new NeuroMuscularSymptom(symptomName, (int)index, impact);
+	    	else if (respiratorySymptom.contains(symptomName)) 
+	    		s = new RespiratorySymptom(symptomName, (int)index, impact);
 	    }
-	    return null;		
-		
+	    
+	    
+	    if (s != null) {
+	    	symptomCache.put(symptomName, s);
+	    }
+	    
+	    return s;		
 	}
 }

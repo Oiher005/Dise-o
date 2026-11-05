@@ -1,10 +1,9 @@
 package adapter;
 
 import java.util.Comparator;
-
 import domain.Symptom;
 
-public class SeverityComparator implements Comparator {
+public class SeverityComparator implements Comparator<Object> {
 
 	@Override
 	public int compare(Object arg0, Object arg1) {
@@ -16,5 +15,5 @@ public class SeverityComparator implements Comparator {
 		return 0;
 		
 	}
-
+	
 }
